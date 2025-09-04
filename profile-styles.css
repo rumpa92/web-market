@@ -516,3 +516,90 @@
     position: relative;
     z-index: 2;
 }
+
+/* OTP modal styles */
+.otp-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.otp-modal {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.otp-title {
+    margin: 0 0 1rem 0;
+    text-align: center;
+    font-size: 1.125rem;
+    color: #212529;
+}
+
+.otp-subtitle {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 1.25rem;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.otp-digit {
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.otp-digit:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 6px 18px rgba(0,123,255,0.08);
+}
+
+.otp-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-secondary {
+    flex: 1;
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    flex: 1;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .otp-inputs { gap: 0.4rem; }
+    .otp-digit { width: 40px; height: 40px; }
+}
