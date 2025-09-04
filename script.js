@@ -398,7 +398,7 @@ function removeFromWishlist(productTitle) {
 // Quick View functionality removed
 
 // Filter Tabs Functionality
-function setupFilterTabs() {
+function setupFilterTabs_legacy() {
     const filterTabs = document.querySelectorAll('.filter-tab');
     
     filterTabs.forEach(tab => {
@@ -2371,7 +2371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Cart Summary Function
-function showCartSummary() {
+function showCartSummary_legacy() {
     const total = cart.reduce((sum, item) => {
         const price = parseFloat(item.price.replace('$', ''));
         return sum + (price * item.quantity);
@@ -2457,7 +2457,7 @@ function showWishlistSummary() {
 }
 
 // Newsletter functionality enhancement
-function setupNewsletterForm() {
+function setupNewsletterForm_legacy() {
     const newsletterForm = document.querySelector('.newsletter-form');
     const newsletterInput = document.querySelector('.newsletter-input');
     const newsletterBtn = document.querySelector('.newsletter-button');
@@ -2493,7 +2493,7 @@ function setupNewsletterForm() {
 }
 
 // Product Navigation Setup
-function setupProductNavigation() {
+function setupProductNavigation_legacy() {
     const productCards = document.querySelectorAll('.product-card, .modern-product-card, .colorful-product-card');
 
     productCards.forEach(card => {
