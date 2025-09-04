@@ -839,6 +839,15 @@ body {
     text-decoration: none;
 }
 
+/* Site logo image */
+.site-logo-img {
+    display: block;
+    height: 44px;
+    width: auto;
+}
+.site-logo { display: inline-flex; align-items: center; }
+
+
 .location-trigger {
     display: flex;
     align-items: center;
@@ -4883,10 +4892,51 @@ h3.section-title {
     border-bottom: 1px solid #f0f0f0;
 }
 
-.user-info {
+/* Dropdown header specific text sizing and colors (from diff) */
+.profile-dropdown .dropdown-header .user-name {
+    display: block;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 30px;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.profile-dropdown .dropdown-header .user-email {
+    display: block;
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.profile-dropdown .dropdown-header .user-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.profile-dropdown .dropdown-header .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+}
+
+.profile-dropdown .dropdown-header .user-status {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 8px;
+    font-size: 13.6px;
+    color: rgba(255,255,255,0.9);
+    line-height: 22px;
+    margin-top: 4px;
+}
+
+.profile-dropdown .dropdown-header .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
 }
 
 .dropdown-avatar {

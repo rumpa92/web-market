@@ -8,6 +8,57 @@
     <link rel="stylesheet" href="profile-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Dev guard: predefine and defer common 3rd-party analytics to avoid iframe timeouts
+        (function(){
+            try{
+                const host = location.hostname || '';
+                const isDev = host.includes('localhost') || host.includes('127.0.0.1') || host.endsWith('.fly.dev') || host.includes('preview');
+                if (!isDev) return;
+
+                // Predefine FullStory namespace to avoid conflicts if FS loads
+                window._fs_namespace = window._fs_namespace || 'FS';
+
+                // Mark common analytics as disabled in dev
+                window['ga_disable'] = true;
+                window['__sentry_disable'] = true;
+
+                // Intercept dynamic script insertion and defer known 3rd-party libs
+                const origCreate = Document.prototype.createElement;
+                Document.prototype.createElement = function(tagName){
+                    const el = origCreate.call(this, tagName);
+                    try{
+                        if (String(tagName).toLowerCase() === 'script'){
+                            const origSetAttr = el.setAttribute.bind(el);
+                            el.setAttribute = function(name, value){
+                                if (name === 'src' && /fullstory|hotjar|sentry|segment|analytics|mixpanel|intercom|heap|collect|gtag/gi.test(value)){
+                                    // defer by storing original URL and preventing immediate load
+                                    origSetAttr('data-deferred-src', value);
+                                    console.info('Dev guard deferred 3rd-party script:', value);
+                                    return;
+                                }
+                                return origSetAttr(name, value);
+                            };
+                        }
+                    }catch(e){console.warn(e);}
+                    return el;
+                };
+
+                // Helper to load deferred scripts manually (call from console when needed)
+                window.__loadDeferredThirdPartyScripts = function(){
+                    document.querySelectorAll('script[data-deferred-src]').forEach(s => {
+                        const src = s.getAttribute('data-deferred-src');
+                        if (!src) return;
+                        s.removeAttribute('data-deferred-src');
+                        s.src = src;
+                        console.info('Loaded deferred script:', src);
+                    });
+                };
+
+                console.info('Dev guard active: 3rd-party scripts deferred. Call __loadDeferredThirdPartyScripts() to load them.');
+            }catch(e){ console.warn('Dev guard init error', e); }
+        })();
+    </script>
     <style>
         /* Edit Profile Modal Styles */
         .edit-profile-modal {
@@ -614,7 +665,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <h1><a href="index.html" style="text-decoration: none; color: inherit;">StyleHub</a></h1>
+                    <a href="index.html" class="site-logo"><img src="https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fa37032196868470c93c47fe3be0e3838?format=webp&width=200" alt="StyleHub" class="site-logo-img"></a>
                     <button class="location-trigger" id="locationTrigger" title="Select Location">
                         <i class="fas fa-map-marker-alt"></i>
                         <span class="location-text">Select Location</span>
@@ -638,7 +689,7 @@
                         <div class="profile-section" id="profileSection">
                             <div class="profile-trigger" id="profileTrigger">
                                 <div class="profile-avatar">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets%2F3bfc87a33d0e478bbf3e2900f481bf1d%2Ff093e49432c544f0a80a8ee9e70d5976?format=webp&width=40" alt="Profile" class="profile-image" id="profileImage">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F09036244207a4d78a883589059fca392?format=webp&width=40" alt="Profile" class="profile-image" id="profileImage">
                                     <div class="online-status" id="onlineStatus" title="Online"></div>
                                 </div>
                                 <i class="fas fa-chevron-down profile-arrow" id="profileArrow"></i>
@@ -697,7 +748,7 @@
                 <div class="profile-avatar-section">
                     <div class="avatar-container">
                         <div class="avatar-circle">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F3bfc87a33d0e478bbf3e2900f481bf1d%2Ff093e49432c544f0a80a8ee9e70d5976?format=webp&width=80" alt="Sarah Johnson" class="profile-avatar-img" id="profilePictureMain">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F09036244207a4d78a883589059fca392?format=webp&width=80" alt="Sarah Johnson" class="profile-avatar-img" id="profilePictureMain">
                         </div>
                         <div class="online-badge">
                             <i class="fas fa-circle"></i>
@@ -784,11 +835,11 @@
     </main>
 
     <!-- Edit Profile Modal -->
-    <div id="editProfileModal" class="edit-profile-modal" style="display: none;">
+    <div id="editProfileModal" class="edit-profile-modal hidden-modal">
         <div class="edit-profile-container">
             <div class="edit-profile-header">
                 <h2>👤 Edit Profile</h2>
-                <button class="close-edit-modal" id="closeEditModal">×</button>
+                <button type="button" class="close-edit-modal" id="closeEditModal" title="Exit without saving changes." aria-label="Exit without saving changes." data-prompt="Exit without saving changes." role="button" tabindex="0" onclick="closeEditProfileModal()">×</button>
             </div>
 
             <form class="edit-profile-form" id="editProfileForm">
@@ -796,21 +847,21 @@
                 <div class="profile-photo-section">
                     <div class="photo-upload-container">
                         <div class="current-photo" id="currentPhoto">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F3bfc87a33d0e478bbf3e2900f481bf1d%2Ff093e49432c544f0a80a8ee9e70d5976?format=webp&width=120" alt="Profile Photo" id="profilePhotoPreview">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F09036244207a4d78a883589059fca392?format=webp&width=120" alt="Profile Photo" id="profilePhotoPreview">
                             <div class="photo-overlay">
                                 <i class="fas fa-camera"></i>
                             </div>
                         </div>
                         <div class="photo-actions">
-                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn">
+                            <label for="photoInput" class="upload-photo-btn" id="uploadPhotoBtn" title="Tap to upload a new profile picture from your device." aria-label="Tap to upload a new profile picture from your device." data-prompt="Tap to upload a new profile picture from your device." role="button" tabindex="0" aria-haspopup="true">
                                 <i class="fas fa-upload"></i>
                                 Upload Photo
-                            </button>
-                            <button type="button" class="remove-photo-btn" id="removePhotoBtn">
+                            </label>
+                            <button type="button" class="remove-photo-btn" id="removePhotoBtn" title="Remove the current profile picture." aria-label="Remove the current profile picture." data-prompt="Remove the current profile picture.">
                                 <i class="fas fa-trash"></i>
                                 Remove
                             </button>
-                            <input type="file" id="photoInput" accept="image/*" hidden>
+                            <input type="file" id="photoInput" accept="image/*" class="visually-hidden-file" tabindex="-1">
                         </div>
                     </div>
                 </div>
@@ -850,7 +901,7 @@
                             <label for="editMobile">Mobile Number *</label>
                             <div class="mobile-input-container">
                                 <input type="tel" id="editMobile" name="mobile" placeholder="+91 9876543210" required>
-                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn">
+                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn" title="Click to verify your mobile number with an OTP before saving changes." aria-label="Click to verify your mobile number with an OTP before saving changes." data-prompt="Click to verify your mobile number with an OTP before saving changes.">
                                     Verify
                                 </button>
                             </div>
@@ -862,7 +913,7 @@
 
                 <!-- Form Actions -->
                 <div class="form-actions">
-                    <button type="button" class="cancel-btn" id="cancelEditBtn">
+                    <button type="button" class="cancel-btn" id="cancelEditBtn" onclick="showDiscardConfirm()" title="Discard changes and return without saving." aria-label="Discard changes and return without saving." data-prompt="Discard changes and return without saving.">
                         Cancel
                     </button>
                     <button type="submit" class="save-profile-btn" id="saveProfileBtn">
@@ -926,20 +977,47 @@
     <script>
         // Edit Profile Modal Functionality
         function populateEditForm() {
-            // Pre-fill form with current user data
-            document.getElementById('editFullName').value = 'Sarah Johnson';
-            document.getElementById('editEmail').value = 'sarah.johnson@stylehub.com';
-            document.getElementById('editMobile').value = '+91 9775637590';
-            document.getElementById('editGender').value = 'female';
-            document.getElementById('editDateOfBirth').value = '1995-06-15';
+            // Helper to safely set element values if present
+            function setValueIfExists(id, setter) {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                try {
+                    setter(el);
+                    return true;
+                } catch (e) {
+                    console.warn('Failed to set value for', id, e);
+                    return false;
+                }
+            }
 
-            // Set notification preferences
-            document.getElementById('emailNotifications').checked = true;
-            document.getElementById('smsNotifications').checked = true;
-            document.getElementById('pushNotifications').checked = false;
+            // Pre-fill form with current user data when elements exist
+            setValueIfExists('editFullName', el => el.value = 'Sarah Johnson');
+            setValueIfExists('editEmail', el => el.value = 'sarah.johnson@stylehub.com');
+            setValueIfExists('editMobile', el => el.value = '+91 9775637590');
+            setValueIfExists('editGender', el => el.value = 'female');
+            setValueIfExists('editDateOfBirth', el => el.value = '1995-06-15');
 
-            // Set language preference
-            document.getElementById('languagePreference').value = 'en';
+            // Set notification preferences if checkboxes exist
+            setValueIfExists('emailNotifications', el => el.checked = true);
+            setValueIfExists('smsNotifications', el => el.checked = true);
+            setValueIfExists('pushNotifications', el => el.checked = false);
+
+            // Set language preference if select exists
+            setValueIfExists('languagePreference', el => el.value = 'en');
+        }
+
+        // Track whether the edit form has unsaved changes
+        window.editFormDirty = false;
+
+        function markFormDirty() { window.editFormDirty = true; }
+
+        function attachDirtyListeners(form) {
+            if (!form) return;
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(el => {
+                el.addEventListener('input', markFormDirty);
+                el.addEventListener('change', markFormDirty);
+            });
         }
 
         function setupEditProfileModal() {
@@ -953,59 +1031,331 @@
             const currentPhoto = document.getElementById('currentPhoto');
 
             // Close modal events
-            closeBtn.addEventListener('click', closeEditProfileModal);
-            cancelBtn.addEventListener('click', closeEditProfileModal);
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => { e.preventDefault(); closeEditProfileModal(); });
+            } else console.warn('closeEditModal button not found');
+
+            if (cancelBtn) {
+                cancelBtn.setAttribute('title', 'Discard changes and return without saving.');
+                cancelBtn.setAttribute('aria-label', 'Discard changes and return without saving.');
+                cancelBtn.setAttribute('data-prompt', 'Discard changes and return without saving.');
+                cancelBtn.addEventListener('click', (e) => { e.preventDefault(); showDiscardConfirm(); });
+            } else console.warn('cancelEditBtn button not found');
 
             // Form submission
-            form.addEventListener('submit', handleProfileUpdate);
+            if (form) {
+                form.addEventListener('submit', handleProfileUpdate);
+                // Attach dirty listeners to detect unsaved changes
+                attachDirtyListeners(form);
+            } else {
+                console.warn('editProfileForm not found');
+            }
 
             // Photo upload functionality
-            photoUploadBtn.addEventListener('click', () => photoInput.click());
-            removePhotoBtn.addEventListener('click', removeProfilePhoto);
-            photoInput.addEventListener('change', handlePhotoUpload);
-            currentPhoto.addEventListener('click', () => photoInput.click());
+            // Support click and keyboard activation
+            if (photoUploadBtn) {
+                photoUploadBtn.addEventListener('click', (e) => {
+                    console.log('uploadPhotoBtn clicked (label or button), photoInput exists?', !!photoInput);
+                    try{
+                        const isLabel = photoUploadBtn.tagName && photoUploadBtn.tagName.toLowerCase() === 'label';
+                        if (!isLabel && photoInput) photoInput.click();
+                    }catch(err){ if (photoInput) photoInput.click(); }
+                });
+                photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
+            } else console.warn('uploadPhotoBtn not found');
+
+            if (removePhotoBtn) removePhotoBtn.addEventListener('click', showRemovePhotoConfirm);
+            if (photoInput) photoInput.addEventListener('change', (e) => { markFormDirty(); handlePhotoUpload(e); });
+            if (currentPhoto) currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
 
             // Mobile verification
-            document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
+            const verifyBtn = document.getElementById('verifyMobileBtn');
+            if (verifyBtn) verifyBtn.addEventListener('click', verifyMobileNumber);
 
             // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeEditProfileModal();
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeEditProfileModal();
+                    }
+                });
+            } else console.warn('editProfileModal not found');
+
+            // Close modal with Escape key when open
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const modalEl = document.getElementById('editProfileModal');
+                    if (modalEl && modalEl.style.display && modalEl.style.display !== 'none') {
+                        closeEditProfileModal();
+                    }
                 }
             });
+
+        // Initialize visible button prompts (tooltips) for elements with data-prompt
+        function initButtonPrompts() {
+            // Create tooltip element and styles
+            const tooltip = document.createElement('div');
+            tooltip.className = 'btn-prompt-tooltip';
+            tooltip.setAttribute('role', 'tooltip');
+            tooltip.style.position = 'fixed';
+            tooltip.style.zIndex = '10002';
+            tooltip.style.pointerEvents = 'none';
+            tooltip.style.background = '#111';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '8px 10px';
+            tooltip.style.borderRadius = '6px';
+            tooltip.style.fontSize = '13px';
+            tooltip.style.boxShadow = '0 6px 18px rgba(0,0,0,.2)';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity .15s ease, transform .15s ease';
+            tooltip.style.transform = 'translateY(6px)';
+            document.body.appendChild(tooltip);
+
+            // Helper to show/hide
+            let hideTimer = null;
+            function showForElement(el) {
+                const text = el.getAttribute('data-prompt') || el.getAttribute('title') || el.getAttribute('aria-label');
+                if (!text) return;
+                tooltip.textContent = text;
+                // ensure rendered width
+                tooltip.style.left = '0px'; tooltip.style.top = '0px';
+                tooltip.classList.add('show');
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+
+                // Positioning
+                const rect = el.getBoundingClientRect();
+                const ttRect = tooltip.getBoundingClientRect();
+                let left = rect.left + (rect.width / 2) - (ttRect.width / 2);
+                left = Math.max(8, Math.min(left, window.innerWidth - ttRect.width - 8));
+                let top = rect.top - ttRect.height - 8;
+                if (top < 8) top = rect.bottom + 8; // place below if not enough space
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+
+                // aria
+                const id = el.id || ('prompt-' + Math.random().toString(36).slice(2,8));
+                if (!el.id) el.id = id;
+                tooltip.id = 'tooltip-' + el.id;
+                el.setAttribute('aria-describedby', tooltip.id);
+
+                // clear any hide timer
+                if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+            }
+
+            function hideTooltip(el) {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(6px)';
+                if (el) el.removeAttribute('aria-describedby');
+                if (hideTimer) clearTimeout(hideTimer);
+            }
+
+            // Attach listeners to elements with data-prompt
+            const els = document.querySelectorAll('[data-prompt]');
+            els.forEach(el => {
+                // mouseenter / focus
+                el.addEventListener('mouseenter', () => showForElement(el));
+                el.addEventListener('focus', () => showForElement(el));
+
+                // mouseleave / blur
+                el.addEventListener('mouseleave', () => hideTooltip(el));
+                el.addEventListener('blur', () => hideTooltip(el));
+
+                // touch / click — show briefly
+                el.addEventListener('click', (e) => {
+                    // on touch devices, show the tooltip for 2.5s
+                    showForElement(el);
+                    if (hideTimer) clearTimeout(hideTimer);
+                    hideTimer = setTimeout(() => hideTooltip(el), 2500);
+                });
+            });
+
+            // hide on scroll/resizes
+            window.addEventListener('scroll', () => hideTooltip(), { passive: true });
+            window.addEventListener('resize', () => hideTooltip());
+        }
+
+        // Call initButtonPrompts when modal is set up
+        initButtonPrompts();
+
         }
 
         function closeEditProfileModal() {
+            // If there are unsaved changes, prompt the user
+            if (window.editFormDirty) {
+                showExitConfirm();
+                return;
+            }
             const modal = document.getElementById('editProfileModal');
             modal.style.display = 'none';
 
-            // Reset form if needed
-            // document.getElementById('editProfileForm').reset();
+            // Reset any temporary state
+            window.editFormDirty = false;
+        }
+
+        function closeEditProfileModalForce() {
+            const modal = document.getElementById('editProfileModal');
+            modal.style.display = 'none';
+            window.editFormDirty = false;
+        }
+
+        function showExitConfirm() {
+            const existing = document.getElementById('exitConfirm');
+            if (existing) return; // already open
+
+            const modal = document.createElement('div');
+            modal.id = 'exitConfirm';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10002;';
+
+            modal.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="exitConfirmTitle" style="background:#fff;border-radius:12px;padding:1.25rem;max-width:460px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2);">
+                    <h3 id="exitConfirmTitle" style="margin:0 0 .5rem 0;">Exit without saving changes?</h3>
+                    <p style="margin:0 0 1rem 0;color:#6c757d;">If you exit now, any changes you've made will be lost.</p>
+                    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                        <button id="exitConfirmCancel" style="padding:.6rem .9rem;border-radius:8px;border:1px solid #e9ecef;background:#fff;cursor:pointer;">Cancel</button>
+                        <button id="exitConfirmBtn" style="padding:.6rem .9rem;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;">Exit</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const btnConfirm = document.getElementById('exitConfirmBtn');
+            const btnCancel = document.getElementById('exitConfirmCancel');
+
+            btnCancel.addEventListener('click', () => { modal.remove(); });
+            btnConfirm.addEventListener('click', () => { modal.remove(); closeEditProfileModalForce(); });
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            btnCancel.focus();
+        }
+
+        function showDiscardConfirm() {
+            const existing = document.getElementById('discardConfirm');
+            if (existing) return;
+
+            const modal = document.createElement('div');
+            modal.id = 'discardConfirm';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10002;';
+
+            modal.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="discardConfirmTitle" style="background:#fff;border-radius:12px;padding:1.25rem;max-width:460px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2);">
+                    <h3 id="discardConfirmTitle" style="margin:0 0 .5rem 0;">Discard changes?</h3>
+                    <p style="margin:0 0 1rem 0;color:#6c757d;">Discard changes and return without saving.</p>
+                    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                        <button id="discardConfirmCancel" style="padding:.6rem .9rem;border-radius:8px;border:1px solid #e9ecef;background:#fff;cursor:pointer;">Continue Editing</button>
+                        <button id="discardConfirmBtn" style="padding:.6rem .9rem;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;">Discard</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const btnConfirm = document.getElementById('discardConfirmBtn');
+            const btnCancel = document.getElementById('discardConfirmCancel');
+
+            btnCancel.addEventListener('click', () => { modal.remove(); });
+            btnConfirm.addEventListener('click', () => { modal.remove(); closeEditProfileModalForce(); });
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            btnCancel.focus();
         }
 
         function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) { // 5MB limit
-                    showNotification('Photo size should be less than 5MB', 'error');
-                    return;
-                }
+            const file = event && event.target && event.target.files && event.target.files[0];
+            console.log('handlePhotoUpload called, file:', file);
+            const preview = document.getElementById('profilePhotoPreview');
+            if (!preview) {
+                console.error('profilePhotoPreview element not found');
+            }
 
+            if (!file) {
+                showNotification('No file selected', 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('Photo size should be less than 5MB', 'error');
+                return;
+            }
+
+            // Try FileReader first
+            try {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                    if (preview) preview.src = e.target.result;
                     showNotification('Photo uploaded successfully', 'success');
+                    // mark form dirty
+                    markFormDirty();
+                };
+                reader.onerror = function(err) {
+                    console.warn('FileReader failed, falling back to createObjectURL', err);
+                    if (preview) preview.src = URL.createObjectURL(file);
+                    markFormDirty();
+                    showNotification('Photo uploaded (preview may be temporary)', 'info');
                 };
                 reader.readAsDataURL(file);
+            } catch (err) {
+                console.warn('Error reading file with FileReader, using createObjectURL', err);
+                if (preview) preview.src = URL.createObjectURL(file);
+                markFormDirty();
+                showNotification('Photo uploaded (preview may be temporary)', 'info');
             }
         }
 
         function removeProfilePhoto() {
-            // Reset to default avatar
-            document.getElementById('profilePhotoPreview').src = 'https://cdn.builder.io/api/v1/image/assets%2F3bfc87a33d0e478bbf3e2900f481bf1d%2Ff093e49432c544f0a80a8ee9e70d5976?format=webp&width=120';
-            document.getElementById('photoInput').value = '';
+            // Immediate removal action (kept for API compatibility) - called after confirmation
+            const preview = document.getElementById('profilePhotoPreview');
+            if (preview) {
+                preview.src = 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F09036244207a4d78a883589059fca392?format=webp&width=120';
+            }
+            const input = document.getElementById('photoInput');
+            if (input) input.value = '';
             showNotification('Profile photo removed', 'info');
+        }
+
+        function showRemovePhotoConfirm() {
+            // Create a confirmation modal for removing profile photo
+            const existing = document.getElementById('removePhotoConfirm');
+            if (existing) return; // already open
+
+            const modal = document.createElement('div');
+            modal.id = 'removePhotoConfirm';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10002;';
+
+            modal.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="removePhotoTitle" style="background:#fff;border-radius:12px;padding:1.25rem;max-width:420px;width:90%;box-shadow:0 10px 30px rgba(0,0,0,.2);">
+                    <h3 id="removePhotoTitle" style="margin:0 0 .5rem 0;">Remove Profile Photo</h3>
+                    <p style="margin:0 0 1rem 0;color:#6c757d;">Remove the current profile picture.</p>
+                    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                        <button id="removePhotoCancel" style="padding:.6rem .9rem;border-radius:8px;border:1px solid #e9ecef;background:#fff;cursor:pointer;">Cancel</button>
+                        <button id="removePhotoConfirmBtn" style="padding:.6rem .9rem;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;">Remove</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const btnConfirm = document.getElementById('removePhotoConfirmBtn');
+            const btnCancel = document.getElementById('removePhotoCancel');
+
+            btnCancel.addEventListener('click', () => {
+                modal.remove();
+            });
+
+            btnConfirm.addEventListener('click', () => {
+                // perform removal
+                removeProfilePhoto();
+                modal.remove();
+            });
+
+            // Close on outside click
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            // Accessibility focus
+            btnConfirm.focus();
         }
 
         function verifyMobileNumber() {
@@ -1022,35 +1372,25 @@
         }
 
         function showOTPModal(mobile) {
+            // Backdrop container
             const otpModal = document.createElement('div');
-            otpModal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                z-index: 10001;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            `;
+            otpModal.className = 'otp-modal-backdrop';
 
             otpModal.innerHTML = `
-                <div style="background: white; border-radius: 12px; padding: 2rem; width: 90%; max-width: 400px;">
-                    <h3 style="margin: 0 0 1rem 0; text-align: center;">Verify Mobile Number</h3>
-                    <p style="text-align: center; color: #6c757d; margin-bottom: 1.5rem;">OTP sent to ${mobile}</p>
-                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
-                        <input type="text" maxlength="1" style="width: 40px; height: 40px; text-align: center; border: 1px solid #e9ecef; border-radius: 6px; font-size: 1.2rem;" class="otp-digit">
+                <div class="otp-modal">
+                    <h3 class="otp-title">Verify Mobile Number</h3>
+                    <p class="otp-subtitle">OTP sent to ${mobile}</p>
+                    <div class="otp-inputs">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 1">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 2">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 3">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 4">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 5">
+                        <input type="text" maxlength="1" class="otp-digit" inputmode="numeric" pattern="[0-9]*" aria-label="OTP digit 6">
                     </div>
-                    <div style="display: flex; gap: 1rem;">
-                        <button onclick="this.closest('div').parentElement.remove()" style="flex: 1; background: #6c757d; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Cancel</button>
-                        <button onclick="verifyOTP()" style="flex: 1; background: #28a745; color: white; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer;">Verify</button>
+                    <div class="otp-actions">
+                        <button type="button" class="btn-secondary" id="otpCancelBtn">Cancel</button>
+                        <button type="button" class="btn-primary" id="otpVerifyBtn">Verify</button>
                     </div>
                 </div>
             `;
@@ -1059,10 +1399,12 @@
 
             // Auto-focus and navigation for OTP inputs
             const otpInputs = otpModal.querySelectorAll('.otp-digit');
-            otpInputs[0].focus();
+            if (otpInputs.length) otpInputs[0].focus();
 
             otpInputs.forEach((input, index) => {
                 input.addEventListener('input', function() {
+                    // allow only digits
+                    this.value = this.value.replace(/[^0-9]/g, '');
                     if (this.value && index < otpInputs.length - 1) {
                         otpInputs[index + 1].focus();
                     }
@@ -1072,14 +1414,28 @@
                     if (e.key === 'Backspace' && !this.value && index > 0) {
                         otpInputs[index - 1].focus();
                     }
+                    if (e.key === 'ArrowLeft' && index > 0) otpInputs[index - 1].focus();
+                    if (e.key === 'ArrowRight' && index < otpInputs.length - 1) otpInputs[index + 1].focus();
                 });
             });
 
-            // Make verifyOTP function globally accessible
-            window.verifyOTP = function() {
+            // Cancel and verify buttons
+            const btnCancel = document.getElementById('otpCancelBtn');
+            const btnVerify = document.getElementById('otpVerifyBtn');
+
+            btnCancel.addEventListener('click', () => otpModal.remove());
+            btnVerify.addEventListener('click', () => {
+                // Collect OTP value
+                const otp = Array.from(otpInputs).map(i => i.value).join('');
+                if (otp.length < otpInputs.length) {
+                    showNotification('Please enter the full OTP', 'error');
+                    return;
+                }
+
+                // Simulate verification success
                 showNotification('Mobile number verified successfully!', 'success');
                 otpModal.remove();
-            };
+            });
         }
 
         function handleProfileUpdate(e) {
@@ -1120,6 +1476,9 @@
 
                 // Close modal
                 closeEditProfileModal();
+
+                // Reset dirty flag
+                window.editFormDirty = false;
 
                 // Show success notification
                 showProfileUpdateConfirmation();
@@ -1191,6 +1550,8 @@
         }
 
         function editProfile() {
+            // Opening the modal should reset the dirty flag
+            window.editFormDirty = false;
             document.getElementById('editProfileModal').style.display = 'flex';
             // Pre-fill form with current user data
             populateEditForm();
