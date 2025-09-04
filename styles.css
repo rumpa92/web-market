@@ -4892,6 +4892,23 @@ h3.section-title {
     border-bottom: 1px solid #f0f0f0;
 }
 
+/* Dropdown header specific text sizing and colors (from diff) */
+.profile-dropdown .dropdown-header .user-name {
+    display: block;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 30px;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.profile-dropdown .dropdown-header .user-email {
+    display: block;
+    font-size: 0.9rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
 .user-info {
     display: flex;
     align-items: center;
