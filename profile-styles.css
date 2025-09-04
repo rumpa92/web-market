@@ -603,3 +603,27 @@
     .otp-inputs { gap: 0.4rem; }
     .otp-digit { width: 40px; height: 40px; }
 }
+
+/* Ensure icons in colored badges render white */
+.card-icon i,
+.card-icon svg,
+.card-icon .fas,
+.card-icon .fa,
+.avatar-circle i,
+.photo-overlay i,
+.online-badge i,
+.current-photo i {
+    color: #fff !important;
+    fill: #fff !important;
+}
+
+/* Also ensure SVG paths inside card-icon are white */
+.card-icon svg path {
+    fill: #fff !important;
+}
+
+/* Small helper for any icon placed on colored rounded backgrounds */
+.badge-icon {
+    color: #fff !important;
+    fill: #fff !important;
+}
