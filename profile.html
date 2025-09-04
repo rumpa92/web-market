@@ -1050,19 +1050,20 @@
 
             // Photo upload functionality
             // Support click and keyboard activation
-            photoUploadBtn.addEventListener('click', (e) => {
-                console.log('uploadPhotoBtn clicked (label or button), photoInput exists?', !!photoInput);
-                // If element is a label with 'for', native browser behavior will open file picker.
-                // For robustness, only trigger click programmatically if input is not associated via label.
-                try{
-                    const isLabel = photoUploadBtn.tagName && photoUploadBtn.tagName.toLowerCase() === 'label';
-                    if (!isLabel && photoInput) photoInput.click();
-                }catch(err){ if (photoInput) photoInput.click(); }
-            });
-            photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
-            removePhotoBtn.addEventListener('click', showRemovePhotoConfirm);
+            if (photoUploadBtn) {
+                photoUploadBtn.addEventListener('click', (e) => {
+                    console.log('uploadPhotoBtn clicked (label or button), photoInput exists?', !!photoInput);
+                    try{
+                        const isLabel = photoUploadBtn.tagName && photoUploadBtn.tagName.toLowerCase() === 'label';
+                        if (!isLabel && photoInput) photoInput.click();
+                    }catch(err){ if (photoInput) photoInput.click(); }
+                });
+                photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
+            } else console.warn('uploadPhotoBtn not found');
+
+            if (removePhotoBtn) removePhotoBtn.addEventListener('click', showRemovePhotoConfirm);
             if (photoInput) photoInput.addEventListener('change', (e) => { markFormDirty(); handlePhotoUpload(e); });
-            currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
+            if (currentPhoto) currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
 
             // Mobile verification
             document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
