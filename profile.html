@@ -926,20 +926,33 @@
     <script>
         // Edit Profile Modal Functionality
         function populateEditForm() {
-            // Pre-fill form with current user data
-            document.getElementById('editFullName').value = 'Sarah Johnson';
-            document.getElementById('editEmail').value = 'sarah.johnson@stylehub.com';
-            document.getElementById('editMobile').value = '+91 9775637590';
-            document.getElementById('editGender').value = 'female';
-            document.getElementById('editDateOfBirth').value = '1995-06-15';
+            // Helper to safely set element values if present
+            function setValueIfExists(id, setter) {
+                const el = document.getElementById(id);
+                if (!el) return false;
+                try {
+                    setter(el);
+                    return true;
+                } catch (e) {
+                    console.warn('Failed to set value for', id, e);
+                    return false;
+                }
+            }
 
-            // Set notification preferences
-            document.getElementById('emailNotifications').checked = true;
-            document.getElementById('smsNotifications').checked = true;
-            document.getElementById('pushNotifications').checked = false;
+            // Pre-fill form with current user data when elements exist
+            setValueIfExists('editFullName', el => el.value = 'Sarah Johnson');
+            setValueIfExists('editEmail', el => el.value = 'sarah.johnson@stylehub.com');
+            setValueIfExists('editMobile', el => el.value = '+91 9775637590');
+            setValueIfExists('editGender', el => el.value = 'female');
+            setValueIfExists('editDateOfBirth', el => el.value = '1995-06-15');
 
-            // Set language preference
-            document.getElementById('languagePreference').value = 'en';
+            // Set notification preferences if checkboxes exist
+            setValueIfExists('emailNotifications', el => el.checked = true);
+            setValueIfExists('smsNotifications', el => el.checked = true);
+            setValueIfExists('pushNotifications', el => el.checked = false);
+
+            // Set language preference if select exists
+            setValueIfExists('languagePreference', el => el.value = 'en');
         }
 
         function setupEditProfileModal() {
