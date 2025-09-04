@@ -802,7 +802,7 @@
                             </div>
                         </div>
                         <div class="photo-actions">
-                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn" title="Tap to upload a new profile picture from your device." aria-label="Tap to upload a new profile picture from your device." data-prompt="Tap to upload a new profile picture from your device.">
+                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn" title="Tap to upload a new profile picture from your device." aria-label="Tap to upload a new profile picture from your device." data-prompt="Tap to upload a new profile picture from your device." aria-haspopup="true">
                                 <i class="fas fa-upload"></i>
                                 Upload Photo
                             </button>
@@ -973,7 +973,9 @@
             form.addEventListener('submit', handleProfileUpdate);
 
             // Photo upload functionality
+            // Support click and keyboard activation
             photoUploadBtn.addEventListener('click', () => photoInput.click());
+            photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); photoInput.click(); } });
             removePhotoBtn.addEventListener('click', removeProfilePhoto);
             photoInput.addEventListener('change', handlePhotoUpload);
             currentPhoto.addEventListener('click', () => photoInput.click());
