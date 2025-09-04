@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - StyleHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Edit Profile Specific Styles */
+        .edit-profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            min-height: 100vh;
+        }
+
+        .edit-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .edit-back-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2d3748;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .edit-back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 55, 72, 0.2);
+        }
+
+        .edit-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0;
+        }
+
+        .edit-form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-picture-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .profile-picture-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .profile-picture-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+        }
+
+        .picture-edit-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .picture-edit-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .picture-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .picture-option-btn {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .picture-option-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cancel-btn, .save-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .cancel-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .cancel-btn:hover {
+            background: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .character-count {
+            font-size: 0.8rem;
+            color: #718096;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .edit-profile-container {
+                padding: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .picture-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-profile-container">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="container">
+                <a href="account-settings.html" class="standard-back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="standard-page-title">Edit Profile</h1>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="edit-form-card">
+            <!-- Profile Picture Section -->
+            <div class="profile-picture-section">
+                <div class="profile-picture-wrapper">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=120&h=120&fit=crop&crop=face" alt="Profile Picture" class="profile-picture-large" id="profilePicturePreview">
+                    <button class="picture-edit-btn" onclick="openPictureOptions()">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+                <div class="picture-options" id="pictureOptions" style="display: none;">
+                    <button class="picture-option-btn" onclick="selectFromGallery()">
+                        <i class="fas fa-images"></i>
+                        Gallery
+                    </button>
+                    <button class="picture-option-btn" onclick="takePhoto()">
+                        <i class="fas fa-camera"></i>
+                        Camera
+                    </button>
+                    <button class="picture-option-btn" onclick="removePicture()">
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+                </div>
+            </div>
+
+            <form id="editProfileForm">
+                <!-- Display Name -->
+                <div class="form-group">
+                    <label class="form-label">Display Name</label>
+                    <input type="text" class="form-input" value="Rumpa Samanta" id="displayName" required maxlength="50">
+                    <div class="character-count" id="nameCount">11/50 characters</div>
+                </div>
+
+                <!-- Username -->
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" value="rumpa_samanta" id="username" required maxlength="30" pattern="[a-zA-Z0-9_]+" title="Only letters, numbers, and underscores allowed">
+                    <div class="character-count" id="usernameCount">13/30 characters</div>
+                </div>
+
+                <!-- Bio -->
+                <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea class="form-textarea" id="bio" placeholder="Tell us about yourself..." maxlength="200">Fashion enthusiast | StyleHub Premium Member | Love exploring new trends and styles</textarea>
+                    <div class="character-count" id="bioCount">87/200 characters</div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" value="rumpa@stylehub.com" id="email" required>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" value="+91 9876543210" id="phone" required>
+                </div>
+
+                <!-- Website -->
+                <div class="form-group">
+                    <label class="form-label">Website (Optional)</label>
+                    <input type="url" class="form-input" placeholder="https://your-website.com" id="website">
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" value="Kolkata, West Bengal" id="location" placeholder="City, State/Country">
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="cancelEdit()">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save"></i>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Character count tracking
+        function updateCharacterCount(inputId, countId, maxLength) {
+            const input = document.getElementById(inputId);
+            const counter = document.getElementById(countId);
+            const currentLength = input.value.length;
+            counter.textContent = `${currentLength}/${maxLength} characters`;
+            
+            if (currentLength > maxLength * 0.9) {
+                counter.style.color = '#e53e3e';
+            } else if (currentLength > maxLength * 0.7) {
+                counter.style.color = '#ed8936';
+            } else {
+                counter.style.color = '#718096';
+            }
+        }
+
+        // Setup character count listeners
+        document.getElementById('displayName').addEventListener('input', function() {
+            updateCharacterCount('displayName', 'nameCount', 50);
+        });
+
+        document.getElementById('username').addEventListener('input', function() {
+            updateCharacterCount('username', 'usernameCount', 30);
+        });
+
+        document.getElementById('bio').addEventListener('input', function() {
+            updateCharacterCount('bio', 'bioCount', 200);
+        });
+
+        // Profile picture functions
+        function openPictureOptions() {
+            const options = document.getElementById('pictureOptions');
+            options.style.display = options.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function selectFromGallery() {
+            showNotification('Opening gallery picker...', 'info');
+            closePictureOptions();
+        }
+
+        function takePhoto() {
+            showNotification('Opening camera...', 'info');
+            closePictureOptions();
+        }
+
+        function removePicture() {
+            const preview = document.getElementById('profilePicturePreview');
+            preview.src = 'https://via.placeholder.com/120x120/e2e8f0/4a5568?text=No+Image';
+            showNotification('Profile picture removed', 'success');
+            closePictureOptions();
+        }
+
+        function closePictureOptions() {
+            document.getElementById('pictureOptions').style.display = 'none';
+        }
+
+        // Username validation
+        document.getElementById('username').addEventListener('input', function() {
+            const username = this.value;
+            const pattern = /^[a-zA-Z0-9_]+$/;
+            
+            if (username && !pattern.test(username)) {
+                this.style.borderColor = '#e53e3e';
+                showValidationMessage('Username can only contain letters, numbers, and underscores');
+            } else {
+                this.style.borderColor = 'rgba(102, 126, 234, 0.2)';
+                hideValidationMessage();
+            }
+        });
+
+        // Form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveProfile();
+        });
+
+        function saveProfile() {
+            // Show loading state
+            const saveBtn = document.querySelector('.save-btn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            saveBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Restore button
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+
+                // Show success notification
+                showNotification('Profile updated successfully!', 'success');
+
+                // Navigate back
+                setTimeout(() => {
+                    window.location.href = 'account-settings.html';
+                }, 1500);
+            }, 2000);
+        }
+
+        function cancelEdit() {
+            window.location.href = 'account-settings.html';
+        }
+
+        function showValidationMessage(message) {
+            // Remove existing validation message
+            hideValidationMessage();
+            
+            const validationDiv = document.createElement('div');
+            validationDiv.className = 'validation-message';
+            validationDiv.style.cssText = `
+                color: #e53e3e;
+                font-size: 0.8rem;
+                margin-top: 0.25rem;
+            `;
+            validationDiv.textContent = message;
+            
+            const usernameGroup = document.getElementById('username').parentNode;
+            usernameGroup.appendChild(validationDiv);
+        }
+
+        function hideValidationMessage() {
+            const existing = document.querySelector('.validation-message');
+            if (existing) {
+                existing.remove();
+            }
+        }
+
+        // Click outside to close picture options
+        document.addEventListener('click', function(e) {
+            const pictureSection = document.querySelector('.profile-picture-section');
+            const pictureOptions = document.getElementById('pictureOptions');
+            
+            if (!pictureSection.contains(e.target)) {
+                pictureOptions.style.display = 'none';
+            }
+        });
+
+        // Notification Function
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                background: white;
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+                z-index: 10001;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 350px;
+                border-left: 4px solid ${type === 'success' ? '#38a169' : type === 'error' ? '#e53e3e' : '#667eea'};
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #a0aec0;">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+
+        // Initialize character counts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCharacterCount('displayName', 'nameCount', 50);
+            updateCharacterCount('username', 'usernameCount', 30);
+            updateCharacterCount('bio', 'bioCount', 200);
+            console.log('Edit Profile page loaded');
+        });
+    </script>
+</body>
+</html>
