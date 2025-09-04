@@ -1469,6 +1469,8 @@
         }
 
         function editProfile() {
+            // Opening the modal should reset the dirty flag
+            window.editFormDirty = false;
             document.getElementById('editProfileModal').style.display = 'flex';
             // Pre-fill form with current user data
             populateEditForm();
