@@ -1078,6 +1078,15 @@
                 });
             } else console.warn('editProfileModal not found');
 
+            // Close modal with Escape key when open
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const modalEl = document.getElementById('editProfileModal');
+                    if (modalEl && modalEl.style.display && modalEl.style.display !== 'none') {
+                        closeEditProfileModal();
+                    }
+                }
+            });
 
         // Initialize visible button prompts (tooltips) for elements with data-prompt
         function initButtonPrompts() {
