@@ -7,6 +7,46 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function(){
+            try{
+                const host = location.hostname || '';
+                const isDev = host.includes('localhost') || host.includes('127.0.0.1') || host.endsWith('.fly.dev') || host.includes('preview');
+                if (!isDev) return;
+                window._fs_namespace = window._fs_namespace || 'FS';
+                window['ga_disable'] = true;
+                window['__sentry_disable'] = true;
+                const origCreate = Document.prototype.createElement;
+                Document.prototype.createElement = function(tagName){
+                    const el = origCreate.call(this, tagName);
+                    try{
+                        if (String(tagName).toLowerCase() === 'script'){
+                            const origSetAttr = el.setAttribute.bind(el);
+                            el.setAttribute = function(name, value){
+                                if (name === 'src' && /fullstory|hotjar|sentry|segment|analytics|mixpanel|intercom|heap|collect|gtag/gi.test(value)){
+                                    origSetAttr('data-deferred-src', value);
+                                    console.info('Dev guard deferred 3rd-party script:', value);
+                                    return;
+                                }
+                                return origSetAttr(name, value);
+                            };
+                        }
+                    }catch(e){console.warn(e);}
+                    return el;
+                };
+                window.__loadDeferredThirdPartyScripts = function(){
+                    document.querySelectorAll('script[data-deferred-src]').forEach(s => {
+                        const src = s.getAttribute('data-deferred-src');
+                        if (!src) return;
+                        s.removeAttribute('data-deferred-src');
+                        s.src = src;
+                        console.info('Loaded deferred script:', src);
+                    });
+                };
+                console.info('Dev guard active: 3rd-party scripts deferred. Call __loadDeferredThirdPartyScripts() to load them.');
+            }catch(e){ console.warn('Dev guard init error', e); }
+        })();
+    </script>
 </head>
 <body>
     <!-- Flash Screen -->
