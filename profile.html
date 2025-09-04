@@ -1006,6 +1006,20 @@
             setValueIfExists('languagePreference', el => el.value = 'en');
         }
 
+        // Track whether the edit form has unsaved changes
+        window.editFormDirty = false;
+
+        function markFormDirty() { window.editFormDirty = true; }
+
+        function attachDirtyListeners(form) {
+            if (!form) return;
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(el => {
+                el.addEventListener('input', markFormDirty);
+                el.addEventListener('change', markFormDirty);
+            });
+        }
+
         function setupEditProfileModal() {
             const modal = document.getElementById('editProfileModal');
             const closeBtn = document.getElementById('closeEditModal');
@@ -1023,6 +1037,9 @@
             // Form submission
             form.addEventListener('submit', handleProfileUpdate);
 
+            // Attach dirty listeners to detect unsaved changes
+            attachDirtyListeners(form);
+
             // Photo upload functionality
             // Support click and keyboard activation
             photoUploadBtn.addEventListener('click', (e) => {
@@ -1036,7 +1053,7 @@
             });
             photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
             removePhotoBtn.addEventListener('click', showRemovePhotoConfirm);
-            if (photoInput) photoInput.addEventListener('change', handlePhotoUpload);
+            if (photoInput) photoInput.addEventListener('change', (e) => { markFormDirty(); handlePhotoUpload(e); });
             currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
 
             // Mobile verification
