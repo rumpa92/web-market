@@ -1066,7 +1066,8 @@
             if (currentPhoto) currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
 
             // Mobile verification
-            document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
+            const verifyBtn = document.getElementById('verifyMobileBtn');
+            if (verifyBtn) verifyBtn.addEventListener('click', verifyMobileNumber);
 
             // Close modal when clicking outside
             modal.addEventListener('click', (e) => {
