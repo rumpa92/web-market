@@ -1157,11 +1157,54 @@
         }
 
         function closeEditProfileModal() {
+            // If there are unsaved changes, prompt the user
+            if (window.editFormDirty) {
+                showExitConfirm();
+                return;
+            }
             const modal = document.getElementById('editProfileModal');
             modal.style.display = 'none';
 
-            // Reset form if needed
-            // document.getElementById('editProfileForm').reset();
+            // Reset any temporary state
+            window.editFormDirty = false;
+        }
+
+        function closeEditProfileModalForce() {
+            const modal = document.getElementById('editProfileModal');
+            modal.style.display = 'none';
+            window.editFormDirty = false;
+        }
+
+        function showExitConfirm() {
+            const existing = document.getElementById('exitConfirm');
+            if (existing) return; // already open
+
+            const modal = document.createElement('div');
+            modal.id = 'exitConfirm';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10002;';
+
+            modal.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="exitConfirmTitle" style="background:#fff;border-radius:12px;padding:1.25rem;max-width:460px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2);">
+                    <h3 id="exitConfirmTitle" style="margin:0 0 .5rem 0;">Exit without saving changes?</h3>
+                    <p style="margin:0 0 1rem 0;color:#6c757d;">If you exit now, any changes you've made will be lost.</p>
+                    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                        <button id="exitConfirmCancel" style="padding:.6rem .9rem;border-radius:8px;border:1px solid #e9ecef;background:#fff;cursor:pointer;">Cancel</button>
+                        <button id="exitConfirmBtn" style="padding:.6rem .9rem;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;">Exit</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const btnConfirm = document.getElementById('exitConfirmBtn');
+            const btnCancel = document.getElementById('exitConfirmCancel');
+
+            btnCancel.addEventListener('click', () => { modal.remove(); });
+            btnConfirm.addEventListener('click', () => { modal.remove(); closeEditProfileModalForce(); });
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            btnCancel.focus();
         }
 
         function handlePhotoUpload(event) {
