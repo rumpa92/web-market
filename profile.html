@@ -1231,6 +1231,38 @@
             btnCancel.focus();
         }
 
+        function showDiscardConfirm() {
+            const existing = document.getElementById('discardConfirm');
+            if (existing) return;
+
+            const modal = document.createElement('div');
+            modal.id = 'discardConfirm';
+            modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10002;';
+
+            modal.innerHTML = `
+                <div role="dialog" aria-modal="true" aria-labelledby="discardConfirmTitle" style="background:#fff;border-radius:12px;padding:1.25rem;max-width:460px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,.2);">
+                    <h3 id="discardConfirmTitle" style="margin:0 0 .5rem 0;">Discard changes?</h3>
+                    <p style="margin:0 0 1rem 0;color:#6c757d;">Discard changes and return without saving.</p>
+                    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem;">
+                        <button id="discardConfirmCancel" style="padding:.6rem .9rem;border-radius:8px;border:1px solid #e9ecef;background:#fff;cursor:pointer;">Continue Editing</button>
+                        <button id="discardConfirmBtn" style="padding:.6rem .9rem;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;">Discard</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            const btnConfirm = document.getElementById('discardConfirmBtn');
+            const btnCancel = document.getElementById('discardConfirmCancel');
+
+            btnCancel.addEventListener('click', () => { modal.remove(); });
+            btnConfirm.addEventListener('click', () => { modal.remove(); closeEditProfileModalForce(); });
+
+            modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+            btnCancel.focus();
+        }
+
         function handlePhotoUpload(event) {
             const file = event.target.files[0];
             if (file) {
