@@ -535,9 +535,17 @@
         }
 
         function trackOrder() {
-            // In a real app, this would navigate to order tracking page
-            alert('Redirecting to order tracking page...');
-            // window.location.href = 'order-tracking.html?order=SH-2024-001234';
+            // For demo, store a demo order ID and navigate to the tracking page
+            try {
+                // Prefer a demo ORD id that exists in track-order dataset
+                const demoOrderId = 'ORD12346';
+                localStorage.setItem('currentOrderNumber', demoOrderId);
+                // Navigate to the track order page which will read currentOrderNumber from storage
+                window.location.href = `track-order.html`;
+            } catch (e) {
+                console.error('Error navigating to track order page', e);
+                alert('Unable to open tracking page. Please try again.');
+            }
         }
 
         function continueShopping() {
