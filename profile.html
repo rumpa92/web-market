@@ -1264,19 +1264,44 @@
         }
 
         function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) { // 5MB limit
-                    showNotification('Photo size should be less than 5MB', 'error');
-                    return;
-                }
+            const file = event && event.target && event.target.files && event.target.files[0];
+            console.log('handlePhotoUpload called, file:', file);
+            const preview = document.getElementById('profilePhotoPreview');
+            if (!preview) {
+                console.error('profilePhotoPreview element not found');
+            }
 
+            if (!file) {
+                showNotification('No file selected', 'error');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showNotification('Photo size should be less than 5MB', 'error');
+                return;
+            }
+
+            // Try FileReader first
+            try {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('profilePhotoPreview').src = e.target.result;
+                    if (preview) preview.src = e.target.result;
                     showNotification('Photo uploaded successfully', 'success');
+                    // mark form dirty
+                    markFormDirty();
+                };
+                reader.onerror = function(err) {
+                    console.warn('FileReader failed, falling back to createObjectURL', err);
+                    if (preview) preview.src = URL.createObjectURL(file);
+                    markFormDirty();
+                    showNotification('Photo uploaded (preview may be temporary)', 'info');
                 };
                 reader.readAsDataURL(file);
+            } catch (err) {
+                console.warn('Error reading file with FileReader, using createObjectURL', err);
+                if (preview) preview.src = URL.createObjectURL(file);
+                markFormDirty();
+                showNotification('Photo uploaded (preview may be temporary)', 'info');
             }
         }
 
