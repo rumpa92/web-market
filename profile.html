@@ -974,11 +974,14 @@
 
             // Photo upload functionality
             // Support click and keyboard activation
-            photoUploadBtn.addEventListener('click', () => photoInput.click());
-            photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); photoInput.click(); } });
+            photoUploadBtn.addEventListener('click', () => {
+                console.log('uploadPhotoBtn clicked, photoInput exists?', !!photoInput);
+                if (photoInput) photoInput.click();
+            });
+            photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
             removePhotoBtn.addEventListener('click', removeProfilePhoto);
-            photoInput.addEventListener('change', handlePhotoUpload);
-            currentPhoto.addEventListener('click', () => photoInput.click());
+            if (photoInput) photoInput.addEventListener('change', handlePhotoUpload);
+            currentPhoto.addEventListener('click', () => { if (photoInput) photoInput.click(); });
 
             // Mobile verification
             document.getElementById('verifyMobileBtn').addEventListener('click', verifyMobileNumber);
