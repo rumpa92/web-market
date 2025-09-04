@@ -1070,11 +1070,13 @@
             if (verifyBtn) verifyBtn.addEventListener('click', verifyMobileNumber);
 
             // Close modal when clicking outside
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeEditProfileModal();
-                }
-            });
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeEditProfileModal();
+                    }
+                });
+            } else console.warn('editProfileModal not found');
 
 
         // Initialize visible button prompts (tooltips) for elements with data-prompt
