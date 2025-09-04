@@ -788,7 +788,7 @@
         <div class="edit-profile-container">
             <div class="edit-profile-header">
                 <h2>👤 Edit Profile</h2>
-                <button class="close-edit-modal" id="closeEditModal">×</button>
+                <button class="close-edit-modal" id="closeEditModal" title="Exit without saving changes." aria-label="Exit without saving changes." data-prompt="Exit without saving changes.">×</button>
             </div>
 
             <form class="edit-profile-form" id="editProfileForm">
@@ -802,11 +802,11 @@
                             </div>
                         </div>
                         <div class="photo-actions">
-                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn">
+                            <button type="button" class="upload-photo-btn" id="uploadPhotoBtn" title="Tap to upload a new profile picture from your device." aria-label="Tap to upload a new profile picture from your device." data-prompt="Tap to upload a new profile picture from your device.">
                                 <i class="fas fa-upload"></i>
                                 Upload Photo
                             </button>
-                            <button type="button" class="remove-photo-btn" id="removePhotoBtn">
+                            <button type="button" class="remove-photo-btn" id="removePhotoBtn" title="Remove the current profile picture." aria-label="Remove the current profile picture." data-prompt="Remove the current profile picture.">
                                 <i class="fas fa-trash"></i>
                                 Remove
                             </button>
@@ -850,7 +850,7 @@
                             <label for="editMobile">Mobile Number *</label>
                             <div class="mobile-input-container">
                                 <input type="tel" id="editMobile" name="mobile" placeholder="+91 9876543210" required>
-                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn">
+                                <button type="button" class="verify-mobile-btn" id="verifyMobileBtn" title="Click to verify your mobile number with an OTP before saving changes." aria-label="Click to verify your mobile number with an OTP before saving changes." data-prompt="Click to verify your mobile number with an OTP before saving changes.">
                                     Verify
                                 </button>
                             </div>
