@@ -4909,10 +4909,34 @@ h3.section-title {
     margin-bottom: 0.5rem;
 }
 
-.user-info {
+.profile-dropdown .dropdown-header .user-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.profile-dropdown .dropdown-header .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+}
+
+.profile-dropdown .dropdown-header .user-status {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 8px;
+    font-size: 13.6px;
+    color: rgba(255,255,255,0.9);
+    line-height: 22px;
+    margin-top: 4px;
+}
+
+.profile-dropdown .dropdown-header .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
 }
 
 .dropdown-avatar {
