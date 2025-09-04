@@ -839,6 +839,15 @@ body {
     text-decoration: none;
 }
 
+/* Site logo image */
+.site-logo-img {
+    display: block;
+    height: 44px;
+    width: auto;
+}
+.site-logo { display: inline-flex; align-items: center; }
+
+
 .location-trigger {
     display: flex;
     align-items: center;
