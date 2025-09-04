@@ -1025,9 +1025,14 @@
 
             // Photo upload functionality
             // Support click and keyboard activation
-            photoUploadBtn.addEventListener('click', () => {
-                console.log('uploadPhotoBtn clicked, photoInput exists?', !!photoInput);
-                if (photoInput) photoInput.click();
+            photoUploadBtn.addEventListener('click', (e) => {
+                console.log('uploadPhotoBtn clicked (label or button), photoInput exists?', !!photoInput);
+                // If element is a label with 'for', native browser behavior will open file picker.
+                // For robustness, only trigger click programmatically if input is not associated via label.
+                try{
+                    const isLabel = photoUploadBtn.tagName && photoUploadBtn.tagName.toLowerCase() === 'label';
+                    if (!isLabel && photoInput) photoInput.click();
+                }catch(err){ if (photoInput) photoInput.click(); }
             });
             photoUploadBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); console.log('uploadPhotoBtn activated via keyboard'); if (photoInput) photoInput.click(); } });
             removePhotoBtn.addEventListener('click', removeProfilePhoto);
