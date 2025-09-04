@@ -987,6 +987,95 @@
                     closeEditProfileModal();
                 }
             });
+
+
+        // Initialize visible button prompts (tooltips) for elements with data-prompt
+        function initButtonPrompts() {
+            // Create tooltip element and styles
+            const tooltip = document.createElement('div');
+            tooltip.className = 'btn-prompt-tooltip';
+            tooltip.setAttribute('role', 'tooltip');
+            tooltip.style.position = 'fixed';
+            tooltip.style.zIndex = '10002';
+            tooltip.style.pointerEvents = 'none';
+            tooltip.style.background = '#111';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '8px 10px';
+            tooltip.style.borderRadius = '6px';
+            tooltip.style.fontSize = '13px';
+            tooltip.style.boxShadow = '0 6px 18px rgba(0,0,0,.2)';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity .15s ease, transform .15s ease';
+            tooltip.style.transform = 'translateY(6px)';
+            document.body.appendChild(tooltip);
+
+            // Helper to show/hide
+            let hideTimer = null;
+            function showForElement(el) {
+                const text = el.getAttribute('data-prompt') || el.getAttribute('title') || el.getAttribute('aria-label');
+                if (!text) return;
+                tooltip.textContent = text;
+                // ensure rendered width
+                tooltip.style.left = '0px'; tooltip.style.top = '0px';
+                tooltip.classList.add('show');
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(0)';
+
+                // Positioning
+                const rect = el.getBoundingClientRect();
+                const ttRect = tooltip.getBoundingClientRect();
+                let left = rect.left + (rect.width / 2) - (ttRect.width / 2);
+                left = Math.max(8, Math.min(left, window.innerWidth - ttRect.width - 8));
+                let top = rect.top - ttRect.height - 8;
+                if (top < 8) top = rect.bottom + 8; // place below if not enough space
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+
+                // aria
+                const id = el.id || ('prompt-' + Math.random().toString(36).slice(2,8));
+                if (!el.id) el.id = id;
+                tooltip.id = 'tooltip-' + el.id;
+                el.setAttribute('aria-describedby', tooltip.id);
+
+                // clear any hide timer
+                if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+            }
+
+            function hideTooltip(el) {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(6px)';
+                if (el) el.removeAttribute('aria-describedby');
+                if (hideTimer) clearTimeout(hideTimer);
+            }
+
+            // Attach listeners to elements with data-prompt
+            const els = document.querySelectorAll('[data-prompt]');
+            els.forEach(el => {
+                // mouseenter / focus
+                el.addEventListener('mouseenter', () => showForElement(el));
+                el.addEventListener('focus', () => showForElement(el));
+
+                // mouseleave / blur
+                el.addEventListener('mouseleave', () => hideTooltip(el));
+                el.addEventListener('blur', () => hideTooltip(el));
+
+                // touch / click — show briefly
+                el.addEventListener('click', (e) => {
+                    // on touch devices, show the tooltip for 2.5s
+                    showForElement(el);
+                    if (hideTimer) clearTimeout(hideTimer);
+                    hideTimer = setTimeout(() => hideTooltip(el), 2500);
+                });
+            });
+
+            // hide on scroll/resizes
+            window.addEventListener('scroll', () => hideTooltip(), { passive: true });
+            window.addEventListener('resize', () => hideTooltip());
+        }
+
+        // Call initButtonPrompts when modal is set up
+        initButtonPrompts();
+
         }
 
         function closeEditProfileModal() {
