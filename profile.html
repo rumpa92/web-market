@@ -1031,14 +1031,22 @@
             const currentPhoto = document.getElementById('currentPhoto');
 
             // Close modal events
-            closeBtn.addEventListener('click', closeEditProfileModal);
-            cancelBtn.addEventListener('click', closeEditProfileModal);
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (e) => { e.preventDefault(); closeEditProfileModal(); });
+            } else console.warn('closeEditModal button not found');
+
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', (e) => { e.preventDefault(); closeEditProfileModal(); });
+            } else console.warn('cancelEditBtn button not found');
 
             // Form submission
-            form.addEventListener('submit', handleProfileUpdate);
-
-            // Attach dirty listeners to detect unsaved changes
-            attachDirtyListeners(form);
+            if (form) {
+                form.addEventListener('submit', handleProfileUpdate);
+                // Attach dirty listeners to detect unsaved changes
+                attachDirtyListeners(form);
+            } else {
+                console.warn('editProfileForm not found');
+            }
 
             // Photo upload functionality
             // Support click and keyboard activation
