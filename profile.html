@@ -1036,7 +1036,10 @@
             } else console.warn('closeEditModal button not found');
 
             if (cancelBtn) {
-                cancelBtn.addEventListener('click', (e) => { e.preventDefault(); closeEditProfileModal(); });
+                cancelBtn.setAttribute('title', 'Discard changes and return without saving.');
+                cancelBtn.setAttribute('aria-label', 'Discard changes and return without saving.');
+                cancelBtn.setAttribute('data-prompt', 'Discard changes and return without saving.');
+                cancelBtn.addEventListener('click', (e) => { e.preventDefault(); showDiscardConfirm(); });
             } else console.warn('cancelEditBtn button not found');
 
             // Form submission
