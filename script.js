@@ -3933,10 +3933,20 @@ function loadCollectionContent(collectionType) {
     const collectionTitle = document.getElementById('collectionTitle');
     const collectionTagline = document.getElementById('collectionTagline');
     const collectionHeroImage = document.querySelector('#collectionHeroImage img');
+    const collectionHero = document.querySelector('.collection-hero');
 
     if (collectionTitle) collectionTitle.textContent = collectionData.title;
     if (collectionTagline) collectionTagline.textContent = collectionData.tagline;
-    if (collectionHeroImage) collectionHeroImage.src = collectionData.heroImage;
+
+    // If there is an <img> inside #collectionHeroImage set its src, otherwise set the .collection-hero background-image
+    if (collectionHeroImage) {
+        collectionHeroImage.src = collectionData.heroImage;
+    } else if (collectionHero) {
+        collectionHero.style.backgroundImage = `url('${collectionData.heroImage}')`;
+        collectionHero.style.backgroundRepeat = 'no-repeat';
+        collectionHero.style.backgroundPosition = 'center';
+        collectionHero.style.backgroundSize = 'cover';
+    }
 
     // Update active collection tab
     const collectionTabs = document.querySelectorAll('.collection-tab');
