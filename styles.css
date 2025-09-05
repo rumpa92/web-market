@@ -5091,7 +5091,10 @@ h3.section-title {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff9aa2 0%, #ffb7b2 25%, #ffdac1 50%, #e2f0cb 75%, #b5ead7 100%);
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fcca823ec8b624ff18c3b92b218c4e021");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     z-index: 1;
 }
 
