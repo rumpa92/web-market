@@ -5099,7 +5099,11 @@ h3.section-title {
 }
 
 .slide-2-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc6b8e450cc61421e859ab2ce51cd518b");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    top: -9px;
 }
 
 .slide-3-bg {
