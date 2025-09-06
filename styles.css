@@ -1707,6 +1707,11 @@ h3::after {
     border-radius: 20px;
 }
 
+/* Spring-specific lighter overlay for fresher look */
+.spring-theme .collection-hero::before {
+    background: linear-gradient(90deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 60%);
+}
+
 .collection-hero-content {
     position: relative;
     z-index: 2;
