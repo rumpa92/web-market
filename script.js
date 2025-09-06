@@ -3417,7 +3417,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '�������★★☆'
+            rating: '���������★★☆'
         }
     ],
     'Handbags': [
@@ -3486,7 +3486,7 @@ const subcategoryItems = {
             originalPrice: '$119',
             image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'WOMEN FASHION',
-            rating: '★��★★★'
+            rating: '★★★★★'
         }
     ],
     'Lingerie': [
@@ -3969,7 +3969,7 @@ function getCollectionData(collectionType) {
         winter: {
             title: 'Winter Collection ❄️',
             tagline: 'Explore cozy coats, chic sweaters, and stylish accessories designed to keep you warm and elegant this season.',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F3c02fdf40d2d4f1fa24b5876394ccd00?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc4019445ace94cc59e8b63356e89694e?format=webp&width=1200',
             theme: 'winter'
         },
         spring: {
