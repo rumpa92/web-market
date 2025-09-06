@@ -3417,7 +3417,7 @@ const subcategoryItems = {
             originalPrice: '$150',
             image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'SHOES',
-            rating: '���������★★☆'
+            rating: '�������★★☆'
         }
     ],
     'Handbags': [
@@ -3975,7 +3975,7 @@ function getCollectionData(collectionType) {
         spring: {
             title: 'Spring Collection 2025',
             tagline: 'Fresh styles for the new season ahead',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F72f8c53f7fb240f78689e888234308cb?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc4e20bc9665d428fa8ea5a83b64eecb2?format=webp&width=1200',
             theme: 'spring'
         },
         summer: {
