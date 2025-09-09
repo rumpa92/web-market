@@ -47,6 +47,52 @@
             }catch(e){ console.warn('Dev guard init error', e); }
         })();
     </script>
+    <style>
+        /* Spring collection hero background converted from inline styles */
+        .spring-hero-bg {
+            background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc4019445ace94cc59e8b63356e89694e?format=webp&width=1200');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            min-height: 420px;
+            height: 480px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .spring-hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .spring-hero-text {
+            max-width: 56%;
+            color: white;
+            z-index: 2;
+        }
+
+        .spring-hero-visual {
+            max-width: 44%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .spring-model-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* Keep overlay behaviour already defined in styles.css */
+        .collection-hero-overlay { position: absolute; left: 0; right: 0; bottom: 0; top: 2px; background: rgba(0,0,0,0.25); z-index:1; border-radius:20px; background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F094de4b2359d4befae73b51ab6025956'); background-repeat: no-repeat; background-position: center; background-size: cover; }
+    </style>
 </head>
 <body>
     <!-- Flash Screen -->
@@ -319,23 +365,6 @@
                     <div class="geometric-shape shape-2"></div>
                     <div class="geometric-shape shape-3"></div>
                 </div>
-                <div class="slide-content">
-                    <div class="slide-left">
-                        
-                        <div class="collection-badge">New Arrival</div>
-                        <h1 class="slide-title">
-                            <span class="title-main">FASHION</span>
-                            <span class="title-sub">SEASONAL COLLECTION</span>
-                        </h1>
-                        <p class="slide-description">Discover the latest trends in fashion with our curated seasonal collection featuring premium designs and contemporary styles.</p>
-                        <button class="slide-cta-btn">Shop Collection</button>
-                    </div>
-                    <div class="slide-right">
-                        <div class="model-image">
-                            <img src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=600&fit=crop" alt="Fashion Model" class="model-img">
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Slide 2 -->
@@ -345,23 +374,6 @@
                     <div class="geometric-shape shape-2"></div>
                     <div class="geometric-shape shape-3"></div>
                 </div>
-                <div class="slide-content">
-                    <div class="slide-left">
-                        
-                        <div class="collection-badge">Trending Now</div>
-                        <h1 class="slide-title">
-                            <span class="title-main">WINTER</span>
-                            <span class="title-sub">COLLECTION 2024</span>
-                        </h1>
-                        <p class="slide-description">Embrace the season with our exclusive winter collection featuring cozy yet stylish pieces perfect for the modern wardrobe.</p>
-                        <button class="slide-cta-btn">Explore Winter</button>
-                    </div>
-                    <div class="slide-right">
-                        <div class="model-image">
-                            <img src="https://cdn.builder.io/api/v1/image/assets%2F83fcd0ffeb504b4897e3b397a63b44f0%2F8dab5969bddd4da19d923574ad4a29e7?format=webp&width=800" alt="Winter Fashion Model" class="model-img">
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Slide 3 -->
@@ -370,23 +382,6 @@
                     <div class="geometric-shape shape-1"></div>
                     <div class="geometric-shape shape-2"></div>
                     <div class="geometric-shape shape-3"></div>
-                </div>
-                <div class="slide-content">
-                    <div class="slide-left">
-                        
-                        <div class="collection-badge">Limited Edition</div>
-                        <h1 class="slide-title">
-                            <span class="title-main">DESIGNER</span>
-                            <span class="title-sub">EXCLUSIVE PIECES</span>
-                        </h1>
-                        <p class="slide-description">Discover our exclusive designer collaborations featuring unique pieces that define luxury and sophistication in modern fashion.</p>
-                        <button class="slide-cta-btn">Shop Exclusive</button>
-                    </div>
-                    <div class="slide-right">
-                        <div class="model-image">
-                            <img src="https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=400&h=600&fit=crop" alt="Designer Fashion Model" class="model-img">
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -620,22 +615,17 @@
     <section class="collection-page-section" id="collectionPage" style="display: none;">
         <div class="container">
             <!-- Back Navigation -->
-            <div class="collection-nav">
-                <button class="back-to-home-btn" id="backToHome">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Home
-                </button>
-            </div>
+            <button class="back-to-home-btn" id="backToHome">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </button>
 
-            <!-- Collection Header/Banner Section -->
+
             <div class="collection-header">
-                <div class="collection-hero">
-                    <div class="collection-hero-content">
-                        <h1 class="collection-title" id="collectionTitle">Winter Collection 2025</h1>
-                        <p class="collection-tagline" id="collectionTagline">Stay stylish & cozy this winter</p>
-                    </div>
-                    <div class="collection-hero-image" id="collectionHeroImage">
-                        <img src="https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200" alt="Winter Collection" class="hero-image">
+                <div class="collection-hero spring-hero spring-hero-bg">
+                    <div class="collection-hero-overlay"></div>
+                    <div class="spring-hero-inner">
+                        <div class="spring-hero-text"></div>
+                        <div class="spring-hero-visual"></div>
                     </div>
                 </div>
             </div>
@@ -647,10 +637,8 @@
                     <button class="collection-tab active" data-collection="winter">Winter</button>
                     <button class="collection-tab" data-collection="spring">Spring</button>
                     <button class="collection-tab" data-collection="summer">Summer</button>
-                    <button class="collection-tab" data-collection="autumn">Autumn</button>
                 </div>
             </div>
-
 
             <!-- Top Picks for Winter -->
             <div class="winter-highlights">
@@ -809,19 +797,6 @@
                         </div>
                     </div>
 
-                    <!-- Shop Best Deals CTA -->
-                    <div class="best-deals-cta">
-                        <div class="deals-cta-content">
-                            <div class="deals-cta-text">
-                                <h3>Don't Miss Out! 🔥</h3>
-                                <p>Discover exclusive winter deals and limited-time offers on premium fashion</p>
-                            </div>
-                            <button class="shop-best-deals-btn">
-                                <span>Shop Best Deals</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1124,7 +1099,7 @@
                     <div class="colorful-product-info">
                         <h3 class="colorful-product-title">Teal Cotton Casual Shirt</h3>
                         <div class="product-rating">
-                            <span class="stars">★★★���★</span>
+                            <span class="stars">★★★����★</span>
                         </div>
                         <div class="colorful-product-price">
                             <span class="current-price">$55</span>

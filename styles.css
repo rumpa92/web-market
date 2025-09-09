@@ -1697,6 +1697,53 @@ h3::after {
     border-radius: 15px;
 }
 
+/* Overlay styles for image hero */
+.collection-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 60%);
+    z-index: 1;
+    border-radius: 20px;
+}
+
+/* Spring-specific lighter overlay for fresher look */
+.spring-theme .collection-hero::before {
+    background: linear-gradient(90deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.05) 60%);
+}
+
+.collection-hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    padding: 3rem 2rem;
+    max-width: 640px;
+}
+
+.collection-title {
+    color: #fff;
+    font-size: 3rem;
+    line-height: 1.05;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.45);
+}
+
+.collection-tagline {
+    color: rgba(255,255,255,0.95);
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+}
+
+.collection-cta {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 0.85rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
 .collection-navigation h3 {
     margin-bottom: 1rem;
     color: #333;
@@ -5091,16 +5138,26 @@ h3.section-title {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff9aa2 0%, #ffb7b2 25%, #ffdac1 50%, #e2f0cb 75%, #b5ead7 100%);
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fcca823ec8b624ff18c3b92b218c4e021");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     z-index: 1;
 }
 
 .slide-2-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc6b8e450cc61421e859ab2ce51cd518b");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    top: -9px;
 }
 
 .slide-3-bg {
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ff7043 75%, #bf360c 100%);
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F38f425d996794eeb8e734d4f2c204005");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .geometric-shape {

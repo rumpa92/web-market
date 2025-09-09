@@ -3933,10 +3933,27 @@ function loadCollectionContent(collectionType) {
     const collectionTitle = document.getElementById('collectionTitle');
     const collectionTagline = document.getElementById('collectionTagline');
     const collectionHeroImage = document.querySelector('#collectionHeroImage img');
+    const collectionHero = document.querySelector('.collection-hero');
 
     if (collectionTitle) collectionTitle.textContent = collectionData.title;
     if (collectionTagline) collectionTagline.textContent = collectionData.tagline;
-    if (collectionHeroImage) collectionHeroImage.src = collectionData.heroImage;
+
+    // If there is an <img> inside #collectionHeroImage set its src, otherwise set the .collection-hero background-image
+    if (collectionHeroImage) {
+        collectionHeroImage.src = collectionData.heroImage;
+    } else if (collectionHero) {
+        collectionHero.style.backgroundImage = `url('${collectionData.heroImage}')`;
+        collectionHero.style.backgroundRepeat = 'no-repeat';
+        collectionHero.style.backgroundPosition = 'center';
+        collectionHero.style.backgroundSize = 'cover';
+
+        // Make sure the overlay isn't using its own background image which would cover the hero
+        const overlayEl = collectionHero.querySelector('.collection-hero-overlay');
+        if (overlayEl) {
+            overlayEl.style.backgroundImage = 'none';
+            overlayEl.style.background = 'rgba(0,0,0,0.25)';
+        }
+    }
 
     // Update active collection tab
     const collectionTabs = document.querySelectorAll('.collection-tab');
@@ -3959,19 +3976,19 @@ function getCollectionData(collectionType) {
         winter: {
             title: 'Winter Collection ❄️',
             tagline: 'Explore cozy coats, chic sweaters, and stylish accessories designed to keep you warm and elegant this season.',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F15723a5439104d63b98f8303a1efcea3?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fdc3d010965634f2684d469eb7af5115a?format=webp&width=1200',
             theme: 'winter'
         },
         spring: {
             title: 'Spring Collection 2025',
             tagline: 'Fresh styles for the new season ahead',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2F72f8c53f7fb240f78689e888234308cb?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F1347c4fb530240a98b59adb770e14288?format=webp&width=1200',
             theme: 'spring'
         },
         summer: {
             title: 'Summer Collection 2025',
             tagline: 'Light, breezy styles for sunny days',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2Fb0bd47d0cef64e398781bc1c01fbde2e?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Faed3a1db5455433fac0f9847e6059a78?format=webp&width=1200',
             theme: 'summer'
         },
         exclusive: {
@@ -4095,7 +4112,7 @@ function setupCollectionPage() {
     setupCollectionFilters();
     setupCollectionSort();
     setupBackNavigation();
-    setupFloatingButton();
+    // setupFloatingButton();
     setupQuickActions();
 }
 
@@ -4396,40 +4413,8 @@ function hideCollectionPage() {
 }
 
 function setupFloatingButton() {
-    // Create floating "Shop Bestsellers" button
-    const floatingButton = document.createElement('div');
-    floatingButton.className = 'floating-shop-btn';
-    floatingButton.innerHTML = `
-        <button class="shop-bestsellers-btn">
-            <i class="fas fa-star"></i>
-            Shop Bestsellers
-        </button>
-    `;
-
-    // Add to collection page
-    const collectionPage = document.getElementById('collectionPage');
-    if (collectionPage) {
-        collectionPage.appendChild(floatingButton);
-
-        // Add click handler
-        const btn = floatingButton.querySelector('.shop-bestsellers-btn');
-        btn.addEventListener('click', () => {
-            // Filter to show bestsellers
-            const sortFilter = document.getElementById('sortFilter');
-            if (sortFilter) {
-                sortFilter.value = 'bestsellers';
-                sortProducts('bestsellers');
-            }
-
-            // Scroll to products
-            const productsSection = document.querySelector('.collection-products');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            showNotification('Showing bestsellers!', 'success');
-        });
-    }
+    // Floating button removed — no-op to keep backward compatibility
+    return;
 }
 
 function setupQuickActions() {
@@ -4571,7 +4556,7 @@ function setupCollectionPage() {
     setupCollectionFilters();
     setupCollectionSort();
     setupBackNavigation();
-    setupFloatingButton();
+    // setupFloatingButton();
     setupQuickActions();
     setupCarousels();
     setupWinterFeatures();
