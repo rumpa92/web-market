@@ -3988,7 +3988,7 @@ function getCollectionData(collectionType) {
         summer: {
             title: 'Summer Collection 2025',
             tagline: 'Light, breezy styles for sunny days',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fa91527f2fe264920accbd14578b2df55%2Fb0bd47d0cef64e398781bc1c01fbde2e?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Faed3a1db5455433fac0f9847e6059a78?format=webp&width=1200',
             theme: 'summer'
         },
         exclusive: {
