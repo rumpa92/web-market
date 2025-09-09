@@ -3946,6 +3946,13 @@ function loadCollectionContent(collectionType) {
         collectionHero.style.backgroundRepeat = 'no-repeat';
         collectionHero.style.backgroundPosition = 'center';
         collectionHero.style.backgroundSize = 'cover';
+
+        // Make sure the overlay isn't using its own background image which would cover the hero
+        const overlayEl = collectionHero.querySelector('.collection-hero-overlay');
+        if (overlayEl) {
+            overlayEl.style.backgroundImage = 'none';
+            overlayEl.style.background = 'rgba(0,0,0,0.25)';
+        }
     }
 
     // Update active collection tab
