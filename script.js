@@ -4105,7 +4105,7 @@ function setupCollectionPage() {
     setupCollectionFilters();
     setupCollectionSort();
     setupBackNavigation();
-    setupFloatingButton();
+    // setupFloatingButton();
     setupQuickActions();
 }
 
@@ -4581,7 +4581,7 @@ function setupCollectionPage() {
     setupCollectionFilters();
     setupCollectionSort();
     setupBackNavigation();
-    setupFloatingButton();
+    // setupFloatingButton();
     setupQuickActions();
     setupCarousels();
     setupWinterFeatures();
