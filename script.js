@@ -4406,40 +4406,8 @@ function hideCollectionPage() {
 }
 
 function setupFloatingButton() {
-    // Create floating "Shop Bestsellers" button
-    const floatingButton = document.createElement('div');
-    floatingButton.className = 'floating-shop-btn';
-    floatingButton.innerHTML = `
-        <button class="shop-bestsellers-btn">
-            <i class="fas fa-star"></i>
-            Shop Bestsellers
-        </button>
-    `;
-
-    // Add to collection page
-    const collectionPage = document.getElementById('collectionPage');
-    if (collectionPage) {
-        collectionPage.appendChild(floatingButton);
-
-        // Add click handler
-        const btn = floatingButton.querySelector('.shop-bestsellers-btn');
-        btn.addEventListener('click', () => {
-            // Filter to show bestsellers
-            const sortFilter = document.getElementById('sortFilter');
-            if (sortFilter) {
-                sortFilter.value = 'bestsellers';
-                sortProducts('bestsellers');
-            }
-
-            // Scroll to products
-            const productsSection = document.querySelector('.collection-products');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            showNotification('Showing bestsellers!', 'success');
-        });
-    }
+    // Floating button removed — no-op to keep backward compatibility
+    return;
 }
 
 function setupQuickActions() {
