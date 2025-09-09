@@ -47,6 +47,52 @@
             }catch(e){ console.warn('Dev guard init error', e); }
         })();
     </script>
+    <style>
+        /* Spring collection hero background converted from inline styles */
+        .spring-hero-bg {
+            background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F199ff3be0ea14a5d9d45748644314a9a?format=webp&width=800');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            min-height: 420px;
+            height: 480px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .spring-hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .spring-hero-text {
+            max-width: 56%;
+            color: white;
+            z-index: 2;
+        }
+
+        .spring-hero-visual {
+            max-width: 44%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .spring-model-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* Keep overlay behaviour already defined in styles.css */
+        .collection-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.25); z-index:1; border-radius:20px; }
+    </style>
 </head>
 <body>
     <!-- Flash Screen -->
