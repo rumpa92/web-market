@@ -3975,7 +3975,7 @@ function getCollectionData(collectionType) {
         spring: {
             title: 'Spring Collection 2025',
             tagline: 'Fresh styles for the new season ahead',
-            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2Fc4e20bc9665d428fa8ea5a83b64eecb2?format=webp&width=1200',
+            heroImage: 'https://cdn.builder.io/api/v1/image/assets%2Fbc30722007ed4ce4a7b2c2bf9e5944d6%2F199ff3be0ea14a5d9d45748644314a9a?format=webp&width=800',
             theme: 'spring'
         },
         summer: {
