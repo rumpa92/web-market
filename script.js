@@ -2113,7 +2113,7 @@ function showOrdersModal() {
                         <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Order">
                     </div>
                     <div class="order-details">
-                        <h3>Traditional Salwar Kameez Set</h3>
+                        <h3>Western wear</h3>
                         <p>Order #12345 �� Delivered on Dec 15, 2024</p>
                         <p class="order-price">���2,499</p>
                     </div>
@@ -2127,7 +2127,7 @@ function showOrdersModal() {
                         <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Order">
                     </div>
                     <div class="order-details">
-                        <h3>Designer Anarkali Gown</h3>
+                        <h3>Street wear</h3>
                         <p>Order #12344 • In Transit</p>
                         <p class="order-price">₹3,999</p>
                     </div>
@@ -2571,12 +2571,12 @@ function extractProductDataForNavigation(productCard) {
 
 function getTaglineForProduct(title) {
     const taglines = {
-        'Traditional Salwar Kameez Set': 'Elegant Traditional Wear for Special Occasions',
-        'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
-        'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
-        'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
-        'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
-        'Premium Navy Formal Shirt': 'Professional Style for Modern Men',
+        'Western Wear': 'Contemporary Western Styles for Everyday Chic',
+        'Street wear': 'Urban Casuals for Everyday Edge',
+        'Western': 'Modern Western Choices for Every Day',
+        'Sheath Dress': 'Sleek Modern Silhouettes for Evening Elegance',
+        'Shift Dress': 'Effortless Day-to-Night Style',
+        'Bodycon Dress': 'Figure-Hugging Fits for Bold Statements',
         'Teal Cotton Casual Shirt': 'Comfortable Casual Wear for Every Day',
         'Mustard Yellow Anarkali Dress': 'Vibrant Colors for Joyful Occasions',
         'Traditional Red Silk Saree': 'Timeless Grace in Pure Silk',
