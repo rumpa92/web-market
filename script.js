@@ -2113,7 +2113,7 @@ function showOrdersModal() {
                         <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=200" alt="Order">
                     </div>
                     <div class="order-details">
-                        <h3>Traditional Salwar Kameez Set</h3>
+                        <h3>Western wear</h3>
                         <p>Order #12345 �� Delivered on Dec 15, 2024</p>
                         <p class="order-price">���2,499</p>
                     </div>
@@ -2571,7 +2571,7 @@ function extractProductDataForNavigation(productCard) {
 
 function getTaglineForProduct(title) {
     const taglines = {
-        'Traditional Salwar Kameez Set': 'Elegant Traditional Wear for Special Occasions',
+        'Western wear': 'Contemporary Western Styles for Everyday Chic',
         'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
         'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
         'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
@@ -3272,7 +3272,7 @@ const subcategoryItems = {
             originalPrice: '$250',
             image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
             category: 'WOMEN FASHION',
-            rating: '★★★★★'
+            rating: '★���★★★'
         },
         {
             id: 'dress2',
@@ -3339,7 +3339,7 @@ const subcategoryItems = {
             originalPrice: '$130',
             image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '��★★★★'
+            rating: '�����★★★'
         },
         {
             id: 'pants3',
