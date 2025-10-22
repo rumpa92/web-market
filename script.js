@@ -2572,7 +2572,7 @@ function extractProductDataForNavigation(productCard) {
 function getTaglineForProduct(title) {
     const taglines = {
         'Western wear': 'Contemporary Western Styles for Everyday Chic',
-        'Designer Anarkali Gown': 'Flowing Grace with Exquisite Embroidery',
+        'Street wear': 'Urban Casuals for Everyday Edge',
         'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
         'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
         'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
