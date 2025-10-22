@@ -2573,7 +2573,7 @@ function getTaglineForProduct(title) {
     const taglines = {
         'Western wear': 'Contemporary Western Styles for Everyday Chic',
         'Street wear': 'Urban Casuals for Everyday Edge',
-        'Embroidered Kurta Set': 'Contemporary Style with Traditional Touch',
+        'Western': 'Modern Western Choices for Every Day',
         'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
         'Golden Yellow Lehenga Set': 'Radiant Beauty for Festive Celebrations',
         'Premium Navy Formal Shirt': 'Professional Style for Modern Men',
