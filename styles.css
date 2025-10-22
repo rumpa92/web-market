@@ -9367,6 +9367,22 @@ h3.section-title {
     font-size: 1.2rem;
 }
 
+/* Ensure faces centered across images site-wide */
+.colorful-product-img,
+.product-image,
+.main-product-image,
+.product-image-container img,
+.pick-image,
+.season-image,
+.hero-slide img,
+.collection-hero-image img,
+.recommendation-image,
+.product-hover-image img,
+.wish-media img,
+.colorful-product-image img {
+    object-position: center 12% !important;
+}
+
 /* Profile Information Section */
 .profile-info-section {
     background: #f8f9ff;
