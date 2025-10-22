@@ -2127,7 +2127,7 @@ function showOrdersModal() {
                         <img src="https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F5de41452e8644ee380a72e38d6a74b25?format=webp&width=200" alt="Order">
                     </div>
                     <div class="order-details">
-                        <h3>Designer Anarkali Gown</h3>
+                        <h3>Street wear</h3>
                         <p>Order #12344 • In Transit</p>
                         <p class="order-price">₹3,999</p>
                     </div>
@@ -3272,7 +3272,7 @@ const subcategoryItems = {
             originalPrice: '$250',
             image: 'https://cdn.builder.io/api/v1/image/assets%2F4797038dfeab418e80d0045aa34c21d8%2F9915d20cfed848ec961a57e0b81de98d?format=webp&width=800',
             category: 'WOMEN FASHION',
-            rating: '★���★★★'
+            rating: '★★★★★'
         },
         {
             id: 'dress2',
@@ -3339,7 +3339,7 @@ const subcategoryItems = {
             originalPrice: '$130',
             image: 'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=400&h=400&fit=crop&auto=format&q=90',
             category: 'MEN FASHION',
-            rating: '�����★★★'
+            rating: '��★★★★'
         },
         {
             id: 'pants3',
