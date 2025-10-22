@@ -2571,7 +2571,7 @@ function extractProductDataForNavigation(productCard) {
 
 function getTaglineForProduct(title) {
     const taglines = {
-        'Western wear': 'Contemporary Western Styles for Everyday Chic',
+        'Western Wear': 'Contemporary Western Styles for Everyday Chic',
         'Street wear': 'Urban Casuals for Everyday Edge',
         'Western': 'Modern Western Choices for Every Day',
         'Navy Embroidered Anarkali Gown': 'Royal Elegance in Rich Navy Blue',
